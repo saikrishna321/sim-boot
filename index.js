@@ -7,6 +7,7 @@ import { promisify } from 'util';
 const exec = promisify(require('child_process').exec);
 
 let list;
+let dev='';
 
 class BootSimulator {
   constructor() {
@@ -41,6 +42,8 @@ class BootSimulator {
     await _.map(list, (key, value) => {
       if (value.startsWith('iOS')) {
         _.forEach(key, values => {
+
+          if(values.name.replace(/ /g,'').toUpperCase().includes(dev.replace(/ /g,'').toUpperCase()))
           this.deviceInfo.push(`${values.name} - ${value}`);
         });
       }
