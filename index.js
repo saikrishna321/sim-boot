@@ -59,9 +59,12 @@ class BootSimulator {
       pageSize: 15,
       choices: this.deviceInfo,
     });
+
     const device = await _.split(answer.Device, '-');
     const udid = await this.findUDIDOfSim(device[0], device[1]);
     await exec(`xcrun simctl boot ${udid}`);
+    await exec('open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/');
+
   }
 }
 
