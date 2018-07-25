@@ -42,6 +42,7 @@ class BootSimulator {
   }
 
   async filterOnlyiOSSimulators() {
+    const device;
     list = await this.listSimulators();
     await _.map(list, (key, value) => {
       if (value.startsWith('iOS')) {
@@ -52,6 +53,11 @@ class BootSimulator {
         });
       }
     });
+    if(this.deviceInfo.length<1){
+      console.log("No device matches with provided device name");
+      device='';
+    }
+    else if(this.deviceInfo.length>1){
     const answer = await inquirer.prompt({
       type: 'list',
       name: 'Device',
@@ -60,11 +66,20 @@ class BootSimulator {
       choices: this.deviceInfo,
     });
 
-    const device = await _.split(answer.Device, '-');
-    const udid = await this.findUDIDOfSim(device[0], device[1]);
-    await exec(`xcrun simctl boot ${udid}`);
+    device = await _.split(answer.Device, '-');
+  }
+  else{
+    device= await _.split(this.deviceInfo[0],'-');
+
+  }
+
+    let udid = await getAllSimulator.findUDIDOfSim(device[0], device[1]);
+    if(udid){
+    console.log("Booting "+device[0]+" with "+device[1]);
+    await exec('xcrun simctl boot ' + udid);
     await exec('open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/');
 
+  }
   }
 }
 
