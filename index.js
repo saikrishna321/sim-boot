@@ -7,7 +7,13 @@ import { promisify } from 'util';
 const exec = promisify(require('child_process').exec);
 
 let list;
-let dev='';
+let deviceparam='';
+
+let simbootParams = require('optimist').argv;
+
+if(simbootParams.d){
+  deviceparam=simbootParams.d;
+}
 
 class BootSimulator {
   constructor() {
