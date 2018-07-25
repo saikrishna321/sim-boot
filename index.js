@@ -8,17 +8,15 @@ const exec = promisify(require('child_process').exec);
 
 let list;
 let deviceparam='';
-
 let simbootParams = require('optimist').argv;
-
-if(simbootParams.d){
-  deviceparam=simbootParams.d;
-}
 
 class BootSimulator {
   constructor() {
     this.deviceInfo = [];
     this.iOSDevices = [];
+    if(simbootParams.d){
+      deviceparam=simbootParams.d;
+    }
   }
 
   async listSimulators() {
