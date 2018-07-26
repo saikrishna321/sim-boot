@@ -77,8 +77,7 @@ class BootSimulator {
     if(udid){
     console.log("Booting "+device[0]+" with "+device[1]);
     await exec('xcrun simctl boot ' + udid);
-    await exec('open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/');
-
+    await exec('open -a Simulator --args -CurrentDeviceUDID '+udid);
   }
   }
 }
